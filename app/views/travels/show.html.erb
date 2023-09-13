@@ -1,0 +1,37 @@
+<div class="my-5">
+  <%= render 'shared/header' %>
+</div>
+
+
+<div class="container">
+  <div class="row">
+    <div class="col-12 col-md-7">
+      <h2 class="d-flex justify-content-between">
+        <span>
+          <%= @travel.title %>
+        </span>
+        <span>
+          <% if signed_in? %>
+            <% if current_user.favorites.find_by(travel: @travel) %>
+              <%= link_to favorite_path(current_user.favorites.find_by(travel: @travel)), data: {turbo_method: :delete}, class: "small text-danger" do %>
+                <i class="fa-solid fa-heart"></i>
+              <% end %>
+            <% else %>
+              <%= link_to  travel_favorites_path(@travel), data: {turbo_method: :post}, class: "small text-danger" do %>
+                <i class="fa-regular fa-heart"></i>
+              <% end %>
+            <% end %>
+          <% end %>
+        </span>
+      </h2>
+      <%= render "shared/rating", travel: @travel %>
+      <p><%= @travel.description %></p>
+    </div>
+    <div class="col-12 col-md-5">
+      <%= image_tag @travel.image_url, class:"img-fluid" %>
+    </div>
+  </div>
+  <div>
+    <%= link_to "< Retour", travels_path, class: "text-reset" %>
+  </div>
+</div>
